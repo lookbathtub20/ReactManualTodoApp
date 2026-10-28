@@ -2,6 +2,7 @@ import Button from './Button'
 import InputField from './InputField'
 
 function TodoList({
+	ariaLabel,
 	todoList,
 	editingTodoId,
 	editedTitle,
@@ -13,7 +14,7 @@ function TodoList({
 	onDelete,
 }) {
 	return (
-		<table border={1}>
+		<table border={1} aria-label={ariaLabel}>
 			<thead>
 				<tr>
 					<th>Sl No.</th>

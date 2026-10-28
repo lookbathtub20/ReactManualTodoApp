@@ -10,6 +10,8 @@ function App() {
   const [todoList,addTodoList]=useState([]);
   const [editingTodoId, setEditingTodoId] = useState(null);
   const [editedTitle, setEditedTitle] = useState("");
+  const activeTodos = todoList.filter(todoItem => !todoItem.isCompleted);
+  const completedTodos = todoList.filter(todoItem => todoItem.isCompleted);
 
   /* {
     title:"Prepare for Interview"
@@ -57,7 +59,20 @@ function App() {
       <InputField ariaLabel="Add a todo" value={todo} onChange={handleTodoChange} />
       <Button label="Add" onClick={handleButtonClick} />
       <TodoList
-        todoList={todoList}
+        ariaLabel="Active todos"
+        todoList={activeTodos}
+        editingTodoId={editingTodoId}
+        editedTitle={editedTitle}
+        onEdit={handleEdit}
+        onEditedTitleChange={(e) => setEditedTitle(e.target.value)}
+        onSaveEdit={handleSaveEdit}
+        onCancelEdit={handleCancelEdit}
+        onMarkAsCompleted={handleMarkAsCompleted}
+        onDelete={handleDelete}
+      />
+      <TodoList
+        ariaLabel="Completed todos"
+        todoList={completedTodos}
         editingTodoId={editingTodoId}
         editedTitle={editedTitle}
         onEdit={handleEdit}
