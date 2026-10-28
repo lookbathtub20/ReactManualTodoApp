@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import './App.css'
 import { nanoid } from 'nanoid';
+import Button from './component/Button';
+import InputField from './component/InputField';
+import TodoList from './component/TodoList';
 
 function App() {
   const [todo,addTodo]=useState("");
@@ -49,54 +52,21 @@ function App() {
 
   return (
     <>
-      <input type="text" value={todo} onChange={handleTodoChange}/>
       
-      <button style={{marginLeft:10}} disabled={todo==""} onClick={handleButtonClick}>Add Todo</button>
-      <div>Current todo: {todo}</div>
-      <div>Current todoList: {JSON.stringify(todoList)}</div>
-      <table border={1}>
-        <thead>
-          <tr>
-          <th>
-            Sl No.
-          </th>
-          <th>
-            Todo Title
-          </th>
-          <th>
-            Is Completed
-          </th>
-          <th>
-            Action
-          </th>
-          </tr>
-        </thead>
-        <tbody>
-          {todoList.map((todoItem,index)=>{
-            return <tr key={todoItem.id}>
-              <td>{index+1}</td>
-              <td>
-                {editingTodoId === todoItem.id
-                  ? <input type="text" value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} />
-                  : todoItem.title}
-              </td>
-              <td>{todoItem.isCompleted ? "Yes" : "No"}</td>
-              <td>
-                {editingTodoId === todoItem.id
-                  ? <>
-                      <button disabled={!editedTitle.trim()} onClick={handleSaveEdit}>Save</button>
-                      <button style={{marginLeft:10}} onClick={handleCancelEdit}>Cancel</button>
-                    </>
-                  : <>
-                      <button onClick={() => handleEdit(todoItem)}>Edit</button>
-                      {!todoItem.isCompleted && <button style={{marginLeft:10}} onClick={() => handleMarkAsCompleted(todoItem.id)}>Mark as completed</button>}
-                      <button style={{marginLeft:10}} onClick={() => handleDelete(todoItem.id)}>Delete</button>
-                    </>}
-              </td>
-            </tr>
-          })}
-        </tbody>
-      </table>
+      <br/>
+      <InputField ariaLabel="Add a todo" value={todo} onChange={handleTodoChange} />
+      <Button label="Add" onClick={handleButtonClick} />
+      <TodoList
+        todoList={todoList}
+        editingTodoId={editingTodoId}
+        editedTitle={editedTitle}
+        onEdit={handleEdit}
+        onEditedTitleChange={(e) => setEditedTitle(e.target.value)}
+        onSaveEdit={handleSaveEdit}
+        onCancelEdit={handleCancelEdit}
+        onMarkAsCompleted={handleMarkAsCompleted}
+        onDelete={handleDelete}
+      />
     </>
   )
 }
